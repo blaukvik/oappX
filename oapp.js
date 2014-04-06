@@ -211,6 +211,77 @@ function setOppdatertTid(posTime) {
 
 }
 
+var marker_post;
+var post_found;
+var FIND_LIMIT = 5;
+var FOUND_COLOR = '#00AA00';
+var NEXT_COLOR = '#00FF00';
+var next_control = 0;
+function checkIfCloseToNextControl()
+{
+   if(harStartet== false)
+   	return;
+
+      var distance = calcDistance(ownPosition, post_pos[next_control]);
+      setText("post nr " + next_control, distance);
+
+      if (distance < FIND_LIMIT)
+      {
+         setText("post nr " + next_control, " funnet !");
+         marker_post[next_control].setOptions({strokeColor: FOUND_COLOR});  
+	 
+	 if (next_control < num_poster)
+	 {
+	   next_control = next_control +1;
+           setText("post nr " + next_control, " er nest ");
+           marker_post[next_control].setOptions({strokeColor: NEXT_COLOR});  
+	 }
+	 else
+	 {
+	    setText("Ferdig", "");
+	 }
+      }
+}
+
+var harStartet = false;
+var klarTilStart = false;
+function checkIfStart()
+{
+   if(harStartet)
+   	return;
+
+/*
+   komme innen for 5 m, og så start tiden når du fjerner deg ...
+*/
+   var distance = calcDistance(ownPosition, post_pos[0]);
+   setText("avstand til start", distance);
+
+   if (klarTilStart == false)
+   {
+      if (distance < FIND_LIMIT)
+      {  
+         /* nå er vi innenfor post 0 sitt område */
+         setText("Klar på start" , " !");
+	 klarTilStart = true;
+         marker_post[0].setOptions({strokeColor: FOUND_COLOR});  
+	 next_control = 1;
+         marker_post[next_control].setOptions({strokeColor: NEXT_COLOR});  
+      }
+   }
+   else  // klar til start
+   {
+     if (distance >= FIND_LIMIT)
+     {
+        setText("Start","");
+	harStartet = true;
+     }
+   }
+}
+
+
+/*
+callback for checkbox - vis egen pos
+*/
 function egenposOnClick() {
 
   var cb= document.getElementById("cb1");
@@ -230,6 +301,8 @@ function egenposOnClick() {
 }
 
 
+/* selve hovedgreia...
+*/
 
 function positionUpdateFromWatch(position) 
 {
@@ -295,6 +368,15 @@ function positionUpdateFromWatch(position)
    	rad = 15;
    }
 */
+
+  if(harStartet)
+     checkIfCloseToNextControl();
+  else   
+     checkIfStart();
+
+
+  setText("update", "done");
+
 }
 
 function positionUpdateFailed(error) 
