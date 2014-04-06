@@ -35,7 +35,11 @@ function StatkartMapType(name, layer) {
     };
 }
 
-      
+function calcDistance(a,b)
+{
+  var distance = google.maps.geometry.spherical.computeDistanceBetween(a, b);
+  return distance; 
+}
 
 /*
    handler for knapp - EgenPos
@@ -211,7 +215,7 @@ function setOppdatertTid(posTime) {
 
 }
 
-var marker_post;
+var marker_post = [];
 var post_found;
 var FIND_LIMIT = 5;
 var FOUND_COLOR = '#00AA00';
@@ -261,11 +265,11 @@ function checkIfStart()
       if (distance < FIND_LIMIT)
       {  
          /* nå er vi innenfor post 0 sitt område */
-         setText("Klar på start" , " !");
+         setText("Klar til start" , " !");
 	 klarTilStart = true;
-         marker_post[0].setOptions({strokeColor: FOUND_COLOR});  
+         marker_post[0].setOptions({strokeColor: 'green'});  
 	 next_control = 1;
-         marker_post[next_control].setOptions({strokeColor: NEXT_COLOR});  
+         marker_post[next_control].setOptions({strokeColor: 'yellow'});  
       }
    }
    else  // klar til start
@@ -274,6 +278,10 @@ function checkIfStart()
      {
         setText("Start","");
 	harStartet = true;
+     }
+     else
+     {
+        setText("Venter ved start","");
      }
    }
 }
@@ -517,10 +525,12 @@ function initialize() {
      else
    	  rad = 15;
 
-     var marker_post= new google.maps.Circle({center:post_pos[n-1],
+     var m= new google.maps.Circle({center:post_pos[n-1],
                                      radius: rad,
                                      map:map,
-                                     strokeColor: 'red'});                        
+                                     strokeColor: 'red'});                      
+
+     marker_post.push(m);
   }                         
 
   
