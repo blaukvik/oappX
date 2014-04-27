@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>O-get</title>
+
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+        <script type="text/javascript"
+                src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry">
+
+        </script>
+
+
+        <script type="text/javascript" src="Loype.js"></script>
+        <script type="text/javascript" src="oapp.js"></script>
+
+<link rel="stylesheet" media="screen and (min-device-width: 801px)" type="text/css" href="okart.css" />
+<LINK rel="stylesheet" media="screen and (max-device-width: 800px)" type="text/css" href="okart_small.css">
+        
+        
+
+        <script type="text/javascript">
+            
+         lopsModus = true;
+         
+         visEgenPos = 1;
+         visHale = 1;
+         automatiskSentrering = 1;
+         
+            
+
+        </script>
+
+<script>
+
+var timer = (function() {
+    var basePeriod = 10000;
+    var timeoutRef;
+
+    return {
+      start : function(speed, id) {
+        timer.run();
+      },
+
+      run: function() {
+        if (timeoutRef) clearInterval(timeoutRef);
+
+        logText("Timer");
+        
+        if (nopos === true)
+        {
+            logText("restart pos");
+            
+            getOwnPosition();
+        }
+        
+
+        timeoutRef = setTimeout(timer.run, basePeriod);
+      },
+
+    }
+
+}());
+
+window.onload = function(){timer.start(10, 'timer');};
+
+</script>
+
+        
+        
+        
+    </head>
+
+
+    <body>
+
+        <!-- the canvas is placed top left on PC, or plain top on phone -->
+        <div id="mapCanvas"></div>
+
+        <form>
+
+            <!-- the infopanel is placed top right on PC, or below map on phone -->
+            <div id="infoPanel">
+                <b>Løype:</b><input id='lnr' type="number" value="1" onkeydown="if (event.keyCode == 13) {return false;}" />                
+                <button type="button" onclick="onDoGetKlikk()
+                                ;">Hent</button>
+                
+                <output id='gpsAge' />
+                <textarea id='log' rows='4' cols='40' >
+                </textarea>
+                
+            </div>
+        </form>
+    </body>
+</html>

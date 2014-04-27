@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Løypelegger</title>
+
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+
+        <script type="text/javascript"
+                src="http://maps.google.com/maps/api/js?sensor=false">
+
+        </script>
+
+        <script type="text/javascript" src="Loype.js"></script>
+        <script type="text/javascript" src="oapp.js"></script>
+
+        <link rel="stylesheet" media="screen"
+              type="text/css" href="planner.css" />
+
+        <script type="text/javascript">
+
+visEgenPos = 0;
+loypeModus = 1;
+visHale = 0;
+automatiskSentrering = 0;
+
+        </script>
+
+
+    </head>
+
+
+    <body>
+
+        <!-- the canvas is placed top left on PC, or plain top on phone -->
+        <div id="mapCanvas"></div>
+
+        <form>
+
+            <!-- the infopanel is placed top right on PC, or below map on phone -->
+            <div id="infoPanel">
+                <br> <b>Løype:</b><input id='lnr' type="number" value="1" />
+                <br/> 
+                <button type="button" onclick="onLagreKlikk()
+                                ;">Lagre</button>
+            </div>
+            <div id="cmdPanel">
+            </div>
+        </form>
+    </body>
+</html>
